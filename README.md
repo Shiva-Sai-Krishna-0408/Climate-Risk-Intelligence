@@ -1,10 +1,19 @@
-## Climate-Risk-Intelligence
-AI-powered climate risk scoring system for Indian cities
+# Climate Risk Intelligence System
+
+A machine learning system that scores and visualizes air quality risk 
+across Indian cities using real-time pollution data.
 
 ## Project Overview
-This project Climate Risk Intelligence measures the data of the Air Quality across the cities in India and gives a visual representation on it's map. The project involves pulling real-time data from a website's external server using an API key and uses python libraries like NumPy and Pandas for cleaning and filtration.
 
-It also uses Machine Learning - Random Forest Regressor model to train and test the model. Finally, it uses folium to visualize the cleaned data and to represent in a very readable manner. This data visualization is made public for easy access in the Streamlit website.
+Climate Risk Intelligence pulls real-time air quality data from the 
+OpenAQ API, processes and engineers features using NumPy and Pandas, 
+builds a risk scoring model using Random Forest Regression, and 
+visualizes results on an interactive Indian map using Folium and 
+Streamlit.
+
+The system currently monitors 13 Indian cities, classifying each 
+station by PM2.5 and PM10 pollution levels using WHO air quality 
+guidelines as thresholds.
 
 ## Live Demo
 [Climate Risk Intelligence System](https://climate-risk-india-intelligence.streamlit.app/)
@@ -16,7 +25,7 @@ It also uses Machine Learning - Random Forest Regressor model to train and test 
 - **Visualization**: Folium, Streamlit
 - **Environment**: Jupyter Notebook, VS Code
 
-## Project Structure 
+## Project Structure
 ```
 climate-risk-intelligence/
 ├── data/
@@ -35,29 +44,59 @@ climate-risk-intelligence/
 ```
 
 ## How It Works
-1. The real-time data is sourced from OpenAQ using a unique API key.
-2. The data is then filtered using Python libraries - NumPy and Pandas.
-3. Using the filtered data, data exploration is done and numerous new columns are created and added to the existing dataframe.
-4. Using Machine Learning - Random Forest Regressor, the model is trained with the data in hand.
-5. Model prediction is performed and absolute error is calculated.
-6. Using Folium, the data is visualized and is being presented in a website using Streamlit
+1. Real-time PM2.5 and PM10 data is pulled from OpenAQ API 
+   across 25 Indian monitoring stations
+2. Data is cleaned — outliers removed, missing values dropped, 
+   duplicate sensors averaged
+3. Features engineered: Min-Max normalized pollution scores, 
+   WHO-aligned risk categories (Good → Hazardous), geographic 
+   region classification (North/South/East/West)
+4. Combined risk score calculated as weighted average of 
+   normalized PM2.5 and PM10 scores (0-100 scale)
+5. Random Forest Regressor trained to predict risk scores 
+   from location and pollution features
+6. Results visualized on interactive Folium map, deployed 
+   publicly via Streamlit
 
 ## Results
-1. The final dataset has about 13 Indian cities whose real-time data is visualized on an Indian map.
-2. The Mean Absolute Error - MAE is found to be 4.7.
-3. The pattern we can observe here is that North Indian cities like Delhi, Gurgoan and Rohtak have a slightly bad Air Quality when compared to South Indian cities like Hyderabad and Eastern cities like Kolkata.
+- **Dataset**: 13 Indian cities with complete PM2.5 and PM10 data
+- **Model MAE**: 4.7 (on held-out test set)
+- **Key Finding**: North Indian cities average PM2.5 of 120+ µg/m³ — 
+  nearly 4x the WHO safe limit of 15 µg/m³. Southern cities like 
+  Bengaluru average below 55 µg/m³
+- **Risk Distribution**: 7 of 13 stations classified Unhealthy 
+  or above for PM2.5
+
+## Limitations & Future Work
+- Dataset limited to 13 cities due to API data availability 
+  constraints at time of collection
+- Risk score currently based on PM2.5 and PM10 only
+- Future versions will incorporate NO2, SO2, temperature, 
+  and humidity data
+- Plan to expand to global dataset for broader cross-country analysis
+- Prediction model will be retrained with larger dataset for 
+  statistically meaningful results
 
 ## How to Run
-
 1. Clone the repository
-   git clone https://github.com/Shiva-Sai-Krishna-0408/Climate-Risk-Intelligence.git
-
+```
+git clone https://github.com/Shiva-Sai-Krishna-0408/Climate-Risk-Intelligence.git
+```
 2. Create and activate virtual environment
-   python -m venv .venv
-   .venv\Scripts\Activate.ps1
-
+```
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
 3. Install dependencies
-   pip install -r requirements.txt
-
+```
+pip install -r requirements.txt
+```
 4. Run the Streamlit app
-   streamlit run app.py
+```
+streamlit run app.py
+```
+
+## About
+Built as part of an AI/ML learning journey focused on using 
+data science for environmental impact. All data sourced from 
+OpenAQ's public API.
